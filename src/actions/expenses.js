@@ -1,6 +1,6 @@
 
 import uuid from 'uuid';
-import database from '../firebase/firebase';
+import database from '../firebase/firebase.js';
 
 export const addExpense= (expense) => ({
     type: 'ADD_EXPENSE',
@@ -40,7 +40,13 @@ export const addExpense= (expense) => ({
     };
   };
 
-
+  export const startEditExpense =(id,updates) =>{
+    return (dispatch)=>{
+      return database.ref(`expenses/${id}`).update(updates).then(()=>{
+        dispatch(editExpense(id,updates));
+      });
+    };
+  };
   
   export const editExpense = (id,updates) =>({     // takes id and updates as input and returns action object
     type:'EDIT_EXPENSE',
